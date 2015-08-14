@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addons>
+<addon id="plugin.video.movie25"
+       name="Mash Up"
+       version="1.4.2"
+       provider-name="MashUp/Mafarricos/Leinad4Mind">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+		<import addon="script.module.urlresolver"  version="0.0.1"/>
+		<import addon="script.module.t0mm0.common" version="1.1.0"/>
+		<import addon="script.module.metahandler"  version="1.0.2"/>
+		<import addon="script.module.beautifulsoup"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource"
+               library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+    <summary lang="en">Browse Movie25 and many more sources</summary>
+    <description lang="en">Browse and play a wide selection of movies from the sites like Movie25.com, watchfreeseres, seriesgate, rlsmx, newmyvidelinks etc.
+	[COLOR green]Mash Up is Now Officially Ad Free[/COLOR]</description>
+    <platform>all</platform>
+  </extension>
+</addon>
+
+<addon id="plugin.video.streamajoker" name="Stream a Joker" version="0.6.4" provider-name="Mafarricos">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+        <import addon="script.module.requests"/>
+        <import addon="script.joker"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="addon.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+    </extension>
+</addon>
+
+<addon id="plugin.video.streamBeta" name="StreamBeta" version="1.4.8b" provider-name="brysonreece/Mafarricos">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="addon.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <website>http://stream.brysonreece.com/</website>
+        <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
+        <summary lang="en">Seamlessly watch content from across the internet.</summary>
+        <description lang="en">Enjoy a variety of content, from your favorite TV shows to the latest movies!</description>
+    </extension>
+</addon>
+
+<addon id="plugin.video.xbmctorrentV2" name="XBMCtorrentV2" version="1.0.0" provider-name="steeve/Mafarricos">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="addon.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+    </extension>
+</addon>
+
+<addon id="repository.mafarricos.xbmc" name="Mafarricos repositorio" version="1.0.5" provider-name="Mafarricos">
+	<extension point="xbmc.addon.repository" name="Mafarricos Add-on Repository">
+		<info compressed="false">http://raw.github.com/Mafarricos/Mafarricos-xbmc-addons/master/addons.xml</info>
+		<checksum>http://raw.github.com/Mafarricos/Mafarricos-xbmc-addons/master/addons.xml.md5</checksum>
+		<datadir zip="true">http://raw.github.com/Mafarricos/Mafarricos-xbmc-addons/master/repo/</datadir>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary>Repositorio Mafarricos</summary>
+		<description>Addons de Mafarricos, contacto: MafaStudios@gmail.com</description>
+		<disclaimer></disclaimer>
+		<platform>all</platform>
+	</extension>
+</addon>
+
+<addon id="repository.mafarricosModded.xbmc" name="Mafarricos Modded repositorio" version="1.0.1" provider-name="Mafarricos">
+	<extension point="xbmc.addon.repository" name="Mafarricos Modded Add-on Repository">
+		<info compressed="false">http://raw.github.com/Mafarricos/Mafarricos-modded-xbmc-addons/master/addons.xml</info>
+		<checksum>http://raw.github.com/Mafarricos/Mafarricos-modded-xbmc-addons/master/addons.xml.md5</checksum>
+		<datadir zip="true">http://raw.github.com/Mafarricos/Mafarricos-modded-xbmc-addons/master/repo/</datadir>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary>Repositorio de Addons Modificados por Mafarricos</summary>
+		<description>Addons Modificados por Mafarricos, contacto: MafaStudios@gmail.com</description>
+		<disclaimer></disclaimer>
+		<platform>all</platform>
+	</extension>
+</addon>
+
+<addon id="script.traktBeta" name="trakt (Unofficial)" version="2.3.2" provider-name="Mafarricos">
+	<requires>
+		<import addon="xbmc.python" version="2.1.0"/>
+		<import addon="script.module.simplejson" version="2.0.10"/>
+	</requires>
+	<extension point="xbmc.python.script" library="script.py">
+		<provides>executable</provides>
+	</extension>
+	<extension point="xbmc.service" name="trakt.service" library="default.py" start="login" />
+	<extension point="xbmc.addon.metadata" name="trakt.metadata">
+		<language></language>
+		<summary lang="en">TV and movie scrobbler for trakt.tv</summary>
+		<description lang="en">Automatically scrobble all TV episodes and movies you are watching to trakt.tv! Keep a comprehensive history of everything you've watched and be part of a global community of TV and movie enthusiasts. Sign up for a free account at http://trakt.tv and get a ton of features:
+
+- Automatically scrobble what you're watching
+- Mobile apps for iPhone, iPad, Android, and Windows Phone
+- Share what you're watching (in real time) and rating to facebook and twitter
+- Personalized calendar so you never miss a TV show
+- Follow your friends and people you're interesed in
+- Use watchlists so you don't forget to what to watch
+- Track your media collections and impress your friends
+- Create custom lists around any topics you choose
+- Easily track your TV show progress across all seasons and episodes
+- Track your progress against industry lists such as the IMDb Top 250
+- Discover new shows and movies based on your viewing habits
+- Widgets for your forum signature
+
+What can this addon do?
+
+- Automatically scrobble all TV episodes and movies you are watching
+- Sync your TV episode and movie collections to trakt (triggered after a library update)
+- Auto clean your trakt collection so that it matches up with XBMC
+- Keep watched statuses synced between XBMC and trakt
+- Rate movies and episode after watching them
+- Custom skin/keymap actions for toggling watched status, rating, tagging, and listing
+
+Special thanks to all who contributed to this plugin! Check the commit history and changelog to see these talented developers.</description>
+<summary lang="es">Scrobbler de Películas y Series para trakt.tv</summary>
+		<description lang="es">Haz scrobble automáticamente de todas tus Series de TV y Películas que estés viendo en trakt.tv! Mantén un historial de todo lo que has visto y se parte de una comunidad global de entusiastas por las Series y Películas. Regístrate gratis en http://trakt.tv y consigue una tonelada de características:
+
+- Scrobble automático de lo que estás viendo
+- Aplicaciones móviles para iPhone, iPad, Android y Windows Phone
+- Comparte lo que estás viendo (en tiempo real) y tu valoración en Facebook y Twitter
+- Calendario personalizado para que no te pierdas ninguna serie
+- Sigue tus amigos y personas de interés
+- Usa las watchlists para no olvidarte de lo que quieres ver
+- Controla tus colecciones multimedia e impresiona a tus amigos
+- Crea listas personalizadas sobre los temas de tu elección
+- Controla fácilmente el progreso de los episodios y temporadas de tus Series
+- Controla tu progreso en comparación con listas industriales como IMDb TOP 250
+- Descubre nuevas Series y Películas basadas en tus hábitos
+- Widgets para tu firma en foros
+
+¿Qué puede hacer este add-on?
+
+- Scrobble automático de las Episodios y Películas que estás viendo
+- Sincronizar tus colecciones Series y Películas con trakt.tv (después de la actualización de la biblioteca)
+- Limpiar automáticamente tu colección de trakt.tv para que sea idéntica a la de XBMC
+- Mantener el mismo estado de visionado entre XBMC y trakt.tv
+- Valorar Películas y Episodios después de verlos
+- Skin/teclas personalizadas para acciones como: marcar como visto, valorar, etiquetas y listas
+
+¡Un agradecimiento especial a todos los que han contribuido en este plugin! Revisa el histórico de commits y el histórico de cambios para ver todos esos desarrolladores con talento.</description>
+		<platform>all</platform>
+		<website>http://trakt.tv</website>
+		<source>https://github.com/trakt/script.trakt</source>
+		<forum>http://forum.xbmc.org/showthread.php?tid=138745</forum>
+		<email></email>
+	</extension>
+</addon>
+
+<addon id="script.video.fswitch" name="Frequency Switcher" version="1.3.1" provider-name="jk-nz">
+  <requires>
+    <import addon="xbmc.python" version="2.14.0"/>
+	<import addon="script.module.pyxbmct" version="1.1.2"/>
+  </requires>
+  <extension point="xbmc.python.script" library="fswitch.py">
+    <provides>executable</provides>
+  </extension>
+  <extension point="xbmc.service" library="fswitch_service.py" start="startup"/>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">Frequency Switcher for MINIX NEO-X8</summary>
+    <description lang="en">Requires firmware beta 8 or higher.[CR]Supports 1080p and 720p resolutions.[CR][CR]SettingsMbox does not update to show HDMI mode changes made using this add-on.[CR][CR]Please run Clean Up before you Uninstall or Disable.[CR][CR]Thanks MINIX-Ken, HardwareGuru, KenV99, Roman_V_M, takoi and Abbe</description>
+    <disclaimer lang="en"></disclaimer>
+    <language></language>
+    <platform></platform>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 3, June 2007</license>
+    <forum></forum>
+    <website></website>
+    <email></email>
+    <source></source>
+  </extension>
+</addon>
+
+<addon id="script.video.fswitchRK" name="Frequency Switcher RK" version="1.3.6c" provider-name="Mafarricos/jk-nz">
+  <requires>
+    <import addon="xbmc.python" version="2.14.0"/>
+	<import addon="script.module.pyxbmct" version="1.1.2"/>
+  </requires>
+  <extension point="xbmc.python.script" library="fswitch.py">
+    <provides>executable</provides>
+  </extension>
+  <extension point="xbmc.service" library="fswitch_service.py" start="startup"/>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">Frequency Switcher for Rockchip boxes</summary>
+    <description lang="en">[CR]Only Works on rooted android.[CR][CR]Supports 1080p and 720p resolutions.[CR][CR]Please run Clean Up before you Uninstall or Disable.[CR][CR]Thanks jk-nz, MINIX-Ken, HardwareGuru, KenV99, Roman_V_M, takoi and Abbe</description>
+    <disclaimer lang="en"></disclaimer>
+    <language></language>
+    <platform></platform>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 3, June 2007</license>
+    <forum></forum>
+    <website></website>
+    <email></email>
+    <source></source>
+  </extension>
+</addon>
+
+<addon id="service.autosubsBeta"
+    name="AutoSubs (Unofficial)" version="1.0.5" provider-name="schumi2004,Mafarricos">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+  </requires>
+  <extension point="xbmc.service" library="default.py" start="login" />
+  <extension point="xbmc.python.script" library="default.py">
+    <provides>executable</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">Auto Search for Subtitles on Play</summary>
+    <description lang="en">Auto Search for Subtitles on Playback start if no subs are found.[CR][CR]Icon credits goes to zNET Computer Solutions http://www.znetcs.pl</description>
+    <summary lang="pt">Pesquisa Automática por legendas no Play</summary>
+    <description lang="pt">Pesquisa Automática por legendas na reprodução se não existirem legendas.[CR][CR]Créditos dos icons vão para zNET Computer Solutions http://www.znetcs.pl</description>
+    <platform>all</platform>
+    <language>en</language>
+  </extension>
+</addon>
+
+<addon
+   id="service.subtitles.legendastvBeta"
+   name="Legendas.TV (Unofficial)"
+   version="2.2.1"
+   provider-name="Mafarricos">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+  </requires>
+  <extension point="xbmc.subtitle.module" library="service.py" />
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">Legendas.TV (Unofficial)</summary>
+    <description lang="en">Search and download subtitles from Legendas.TV</description>
+    <description lang="pt">Procura e baixa legendas de Legendas.TV</description>
+    <disclaimer lang="en">For bugs, requests or general questions visit the 'Subtitle add-on' subforum on the XBMC forum.</disclaimer>
+    <disclaimer lang="en">Para bugs, pedidos ou perguntas visite o subfórum 'Subtitle add-on' no fórum oficial do XBMC.</disclaimer>
+    <language></language>
+    <platform>all</platform>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 3.</license>
+    <forum></forum>
+    <website></website>
+    <email></email>
+    <source>https://github.com/Mafarricos/Mafarricos-modded-xbmc-addons/service.subtitles.legendastvBeta</source>
+  </extension>
+</addon>
+
+<addon id="service.subtitles.opensubtitlesBeta"
+       name="OpenSubtitles.org (Unofficial)"
+       version="5.0.10"
+       provider-name="amet,Mafarricos">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+  </requires>
+  <extension point="xbmc.subtitle.module"
+             library="service.py" />
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">OpenSubtitles (Unofficial)</summary>
+    <description lang="en">Search and download subtitles from opensubtitles.org. This unofficial version permits to choose preference language in results</description>
+    <disclaimer lang="en"></disclaimer>
+    <summary lang="pt">OpenSubtitles (Não Oficial)</summary>
+    <description lang="pt">Pesquisa e download de legendas de opensubtitles.org. Esta versão não oficial permite nas definições escolher o idioma para apresentar legendas primeiro</description>
+    <disclaimer lang="pt"></disclaimer>
+    <platform>all</platform>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+    <source>https://github.com/Mafarricos/service.subtitles.opensubtitles</source>
+  </extension>
+</addon>
+</addons>
