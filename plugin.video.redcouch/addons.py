@@ -32,7 +32,7 @@ def CATEGORIES():
 
 def listar_videos(url):
     codigo_fonte = abrir_url(url)
-	match = re.compile('<div class="short-film"><a href="(.+?)"><div class="border-2"><img src="(.+?)" alt="(.+?)" class=".+?" width="151" height="215"/></div>')
+	match = re.compile('<div class="short-film">\n <a href="(.+?)">\n <div class="border-2">\n <img src="(.+?)" alt="(.+?)" class=".+?" width="151" height="215"/>\n </div>').findall(codigo_fonte)
 	for url,img,titulo in match:
 		addDir(titulo,url,2,img)
 
