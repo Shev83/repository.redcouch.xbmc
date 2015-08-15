@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
+<addon id="plugin.video.redcouch" name="Red Couch TV" version="0.1.0" provider-name="Shev83">
+  <requires>
+	<import addon="xbmc.python" version="2.1.0">
+	<import addon="script.module.requests"/>
+	</import>
+  </requires>
+	<extension library="addons.py" point="xbmc.python.pluginsource">
+		<provides>video</provides>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<language>en</language>
+		<platform>all</platform>
+		<summary lang="en">Red Couch TV</summary>
+		<description lang="en">O meu primeiro addon</description>
+		<platform>all</platform>
+	</extension>
+</addon>
+
 <addon id="repository.redcouch.xbmc" name="RedCouchTV repositorio" version="0.0.1" provider-name="Shev83">
 	<extension point="xbmc.addon.repository" name="RedCouchTV Add-on Repository">
 		<info compressed="false">http://raw.github.com/Shev83/repository.redcouch.xbmc/master/addons.xml</info>
