@@ -15,7 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmcvfs,xbmc,xbmcaddon,HTMLParser,json,os,time,datetime,binascii
+import urllib
+import re
+import json
+import os
+
+import urllib.request
+import xbmcplugin
+import xbmcgui
+import xbmcaddon
+import HTMLParser
 
 h = HTMLParser.HTMLParser()
 
@@ -41,7 +50,7 @@ def listar_videos(url):
     codigo_fonte = abrir_url(url)
     match=re.compile('<div class="detalhe_content_ic detalhe_video_ic"><a href="(.+?)"></a></div><a href=".+?"><img src="(.+?)" alt=".+?" title="(.+?)"></a></div><h3 class="p3 destaques_antetitulo">.+?</h3><h2 class="p14"><a href=".+?" class="destaques_titulo">.+?</a></h2><div class="data">.+?</div><div class="a12_branco"><div class=" p28"></div><p align="justify">.+?</p>').findall(codigo_fonte)
     for url,img, titulo in match:
-        addDir(titulo,'http://cmtv.sapo.pt'+url,4,img,pasta = False)
+        addDir(titulo,'http://www.redcouch.me/filmes/'+url,4,img,pasta = False)
 ########################################################################################################
 #FUNCOES DIRECTORIAS                                                                                   #
 ########################################################################################################
@@ -60,58 +69,58 @@ def addDir(name,url,mode,iconimage,pasta = True,total=1):
 
 def check_if_image_exists(url):
 	try:
-		f = urllib2.urlopen(urllib2.Request(url))
+		f = urllib.request.urlopen(urllib.request.Request(url))
 		deadLinkFound = False
 	except:
 		deadLinkFound = True
 	return deadLinkFound
 
 def abrir_url(url, encoding='utf-8'):
-    req = urllib2.Request(url)
+    req = urllib.request.Request(url)
     req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
     req.add_header('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
-    response = urllib2.urlopen(req)
+    response = urllib.request.urlopen(req)
     link=response.read()
     response.close()
     if encoding != 'utf-8': link = link.decode(encoding).encode('utf-8')
     return link
 
 def json_get(url):
-    req = urllib2.Request(url)
+    req = urllib.request.Request(url)
     req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
     req.add_header('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
-    data = json.load(urllib2.urlopen(req))
+    data = json.load(urllib.request.urlopen(req))
     return data
 
 def json_post(data,url):
 	data = json.dumps(data)
-	req = urllib2.Request(url, data, {'Content-Type': 'application/json'})
-	f = urllib2.urlopen(req)
+	req = urllib.request.Request(url, data, {'Content-Type': 'application/json'})
+	f = urllib.request.urlopen(req)
 	response = f.read()
 	f.close()
 
 def post_page(url,user,password):
     mydata=[('login_name',user),('login_password',password),('login','submit')]
     mydata=urllib.urlencode(mydata)
-    req=urllib2.Request(url, mydata)
+    req=urllib.request.Request(url, mydata)
     req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
     req.add_header("Content-type", "application/x-www-form-urlencoded")
     req.add_header('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
-    page=urllib2.urlopen(req).read()
+    page=urllib.request.urlopen(req).read()
     return page
 
 def post_page_free(url,mydata):
 	mydata=urllib.urlencode(mydata)
-	req=urllib2.Request(url, mydata)
+	req=urllib.request.Request(url, mydata)
 	req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
 	req.add_header("Content-type", "application/x-www-form-urlencoded")
 	req.add_header('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
-	page=urllib2.urlopen(req).read()
+	page=urllib.request.urlopen(req).read()
 	return page
 
 def exists(url):
     try:
-        r = urllib2.urlopen(url)
+        r = urllib.request.urlopen(url)
         return True
     except: return False	
 	
