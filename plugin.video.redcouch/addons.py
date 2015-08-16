@@ -32,50 +32,13 @@ def CATEGORIES():
 
 def listar_videos(url):
     codigo_fonte = abrir_url(url)
-	match = re.compile('<div class="short-film"> <a href="(.+?)"> <div class="border-2"> <img src="(.+?)" alt="(.+?)" class=".+?" width="151" height="215"/> </div>').findall(codigo_fonte)
+	match = re.compile('<div class="short-film"><a href="(.+?)"><div class="border-2"><img src="(.+?)" alt="(.+?)" class=".+?" width="151" height="215"/></div></div>').findall(codigo_fonte)
 	for url,img,titulo in match:
 		addDir(titulo,url,2,img)
 
 ########################################################################################################
 #FUNCOES DIRECTORIAS                                                                                   #
 ########################################################################################################
-
-def get_params():
-    param=[]
-    paramstring=sys.argv[2]
-    if len(paramstring)>=2:
-        params=sys.argv[2]
-        cleanedparams=params.replace('?','')
-        if (params[len(params)-1]=='/'): params=params[0:len(params)-2]
-        pairsofparams=cleanedparams.split('&')
-        param={}
-        for i in range(len(pairsofparams)):
-            splitparams={}
-            splitparams=pairsofparams[i].split('=')
-            if (len(splitparams))==2:
-                param[splitparams[0]]=splitparams[1]
-    return param
-
-def addLink(name,url,iconimage):
-    ok=True
-    liz=xbmcgui.ListItem(name, iconImage="DefaultVideo.png", thumbnailImage=iconimage)
-    liz.setProperty('fanart_image', fanart_rato_tv)
-    liz.setInfo( type="Video", infoLabels={ "Title": name } )
-    ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=liz)
-    return ok
-
-def addDir_mensagem(name,url,mode,iconimage,folder,lida,fanart=fanart_rato_tv):
-	u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
-	if fanart: u+= '&fanart='+urllib.quote_plus(fanart)
-	contextmen = []
-	contextmen.append(('Apagar', 'XBMC.RunPlugin(%s?mode=38&url=%s&)' % (sys.argv[0], urllib.quote_plus(url))))
-	ok=True
-	liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
-	if fanart: liz.setProperty('fanart_image', fanart)
-	else: liz.setProperty('fanart_image', fanart_rato_tv)
-	liz.addContextMenuItems(contextmen, replaceItems=True)
-	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=folder)
-	return ok
 
 def addDir(name,url,mode,iconimage,pasta = True,total=1):
 	u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)
