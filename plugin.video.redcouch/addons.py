@@ -28,13 +28,25 @@ fanart = os.path.join(addonfolder,'fanart.jpg')
 down_path = selfAddon.getSetting('download-folder') 
 	
 def CATEGORIES():
-	addDir('FILMES','http://www.redcouch.me/filmes/',1,artfolder + 'categorias.png')
+	addDir('FILMES','http://www.redcouch.me/filmes/',1,artfolder+'categorias.png')
+    addDir('Categorias','-',2,artfolder+'categorias.png')
+
+def categorias():
+	html = abrir_url(base_url)
+	match = re.compile('<li><a href="(.+?)">(.+?)</a></li>').findall(html)
+	for url, cat in match:
+		if cat.startswith('- Filmes'): continue
+		addDir(cat,url,1,artfolder + 'categorias.png')
 
 def listar_videos(url):
     codigo_fonte = abrir_url(url)
-	match = re.compile('<div class="short-film"><a href="(.+?)"><div class="border-2"><img src="(.+?)" alt="(.+?)" class=".+?" width="151" height="215"/></div></div>').findall(codigo_fonte)
-	for url,img,titulo in match:
-		addDir(titulo,url,2,img)
+    url_title = re.compile('<a href="(.+?)">').findall(codigo_fonte)
+	img = re.compile('<img src="(.+?)" alt=".+?" class="img-poster border-2 shadow-dark7" width=".+?" height=".+?"/>').findall(codigo_fonte)
+    titulo = re.compile('<img src=".+?" alt="(.+?)" class="img-poster border-2 shadow-dark7" width=".+?" height=".+?"/>').findall(codigo_fonte)
+	total = len(url_title)
+	
+	for i in range(0,total):
+	    addDir(titulo,url_title,2,img)
 
 ########################################################################################################
 #FUNCOES DIRECTORIAS                                                                                   #
@@ -116,8 +128,7 @@ def exists(url):
 if mode==None or url==None or len(url)<1:
     print ""
     CATEGORIES()
-elif mode==1:
-    print ""
-    listar_videos(url)
-	
+elif mode==1: listar_videos(url)
+elif mode==2: categorias()
+
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
