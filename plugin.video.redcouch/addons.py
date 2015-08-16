@@ -20,16 +20,11 @@ import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmcvfs,xbmc,xbmcaddon,HTMLParser,js
 h = HTMLParser.HTMLParser()
 
 addon_id = 'plugin.video.redcouch'
-print addon_id
 selfAddon = xbmcaddon.Addon(id=addon_id)
-print selfAddon
 addonfolder = selfAddon.getAddonInfo('path')
-print addonfolder
 artfolder = addonfolder + '/resources/img/'
-print artfolder
 base_url = 'http://www.redcouch.me/'
 fanart = os.path.join(addonfolder,'fanart.jpg')
-print fanart
 	
 def CATEGORIES():
 	addDir('FILMES','http://www.redcouch.me/filmes/',1,artfolder+'categorias.png')
