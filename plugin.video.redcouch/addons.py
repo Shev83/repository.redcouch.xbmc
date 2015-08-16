@@ -28,7 +28,7 @@ fanart = os.path.join(addonfolder,'fanart.jpg')
 	
 def CATEGORIES():
 	addDir('FILMES','http://www.redcouch.me/filmes/',1,artfolder+'categorias.png')
-    addDir('Categorias','-',2,artfolder+'categorias.png')
+	addDir('Categorias','-',2,artfolder+'categorias.png')
 
 def categorias():
 	html = abrir_url(base_url)
@@ -39,14 +39,9 @@ def categorias():
 
 def listar_videos(url):
     codigo_fonte = abrir_url(url)
-    url_title = re.compile('<a href="(.+?)">').findall(codigo_fonte)
-	img = re.compile('<img src="(.+?)" alt=".+?" class="img-poster border-2 shadow-dark7" width=".+?" height=".+?"/>').findall(codigo_fonte)
-    titulo = re.compile('<img src=".+?" alt="(.+?)" class="img-poster border-2 shadow-dark7" width=".+?" height=".+?"/>').findall(codigo_fonte)
-	total = len(url_title)
-	
-	for i in range(0,total):
-	    addDir(titulo,url_title,2,img)
-
+    match=re.compile('<div class="detalhe_content_ic detalhe_video_ic"><a href="(.+?)"></a></div><a href=".+?"><img src="(.+?)" alt=".+?" title="(.+?)"></a></div><h3 class="p3 destaques_antetitulo">.+?</h3><h2 class="p14"><a href=".+?" class="destaques_titulo">.+?</a></h2><div class="data">.+?</div><div class="a12_branco"><div class=" p28"></div><p align="justify">.+?</p>').findall(codigo_fonte)
+    for url,img, titulo in match:
+        addDir(titulo,'http://cmtv.sapo.pt'+url,4,img,pasta = False)
 ########################################################################################################
 #FUNCOES DIRECTORIAS                                                                                   #
 ########################################################################################################
@@ -124,9 +119,7 @@ def exists(url):
 # MODOS                                                                                                       #
 ###############################################################################################################
 
-if mode==None or url==None or len(url)<1:
-    print ""
-    CATEGORIES()
+if mode==None or url==None or len(url)<1: CATEGORIES()
 elif mode==1: listar_videos(url)
 elif mode==2: categorias()
 
