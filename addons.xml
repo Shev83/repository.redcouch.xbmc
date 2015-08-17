@@ -26,7 +26,7 @@
 	</extension>
 	<extension point="xbmc.addon.metadata">
 		<summary>Repositorio RedCouch TV</summary>
-		<description>Instale o addon de vÃ­deo RedCouch TV e aceda a todos os conteÃºdos do site redcouch.me no KODI. Filmes, animes e sÃ©ries em HD e...em PortuguÃªs</description>
+		<description>Instale o addon </description>
 		<disclaimer></disclaimer>
 		<platform>all</platform>
 	</extension>
