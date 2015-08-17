@@ -6,16 +6,16 @@
 	<import addon="script.module.t0mm0.common" version="1.1.0"/>
 	</import>
   </requires>
-	<extension library="addons.py" point="xbmc.python.pluginsource">
-		<provides>video</provides>
-	</extension>
-	<extension point="xbmc.addon.metadata">
-		<language>en</language>
-		<platform>all</platform>
-		<summary lang="en">Red Couch TV</summary>
-		<description lang="en">O meu primeiro addon</description>
-		<platform>all</platform>
-	</extension>
+  <extension library="addons.py" point="xbmc.python.pluginscript">
+	<provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+	<language>en</language>
+	<platform>all</platform>
+	<summary lang="en">Red Couch TV</summary>
+	<description lang="en">Addon para visualizaÃ§Ã£o do site Redcouch.me</description>
+	<platform>all</platform>
+  </extension>
 </addon>
 
 <addon id="repository.redcouch.xbmc" name="RedCouchTV repositorio" version="0.0.1" provider-name="Shev83">
