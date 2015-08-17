@@ -69,7 +69,7 @@ def addDir(name,url,mode,iconimage,pasta = True,total=1):
 
 def check_if_image_exists(url):
 	try:
-		f = urllib.request.urlopen(urllib.request.Request(url))
+		f = urllib.request.urlopen(urllib2.Request(url))
 		deadLinkFound = False
 	except:
 		deadLinkFound = True
