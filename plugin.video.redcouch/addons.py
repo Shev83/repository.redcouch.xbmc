@@ -56,6 +56,22 @@ def listar_videos(url):
 #FUNCOES DIRECTORIAS                                                                                   #
 ########################################################################################################
 
+def get_params():
+    param=[]
+    paramstring=sys.argv[2]
+    if len(paramstring)>=2:
+        params=sys.argv[2]
+        cleanedparams=params.replace('?','')
+        if (params[len(params)-1]=='/'): params=params[0:len(params)-2]
+        pairsofparams=cleanedparams.split('&')
+        param={}
+        for i in range(len(pairsofparams)):
+            splitparams={}
+            splitparams=pairsofparams[i].split('=')
+            if (len(splitparams))==2:
+                param[splitparams[0]]=splitparams[1]
+    return param
+
 def addDir(name,url,mode,iconimage,pasta = True,total=1):
     u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)
     ok=True
@@ -125,6 +141,27 @@ def exists(url):
         return True
     except: return False
 
+############################################################################################################
+#NAVEGAÇÃO												   #
+############################################################################################################
+
+params=get_params()
+url=None
+name=None
+seriesName=None
+mode=None
+iconimage=None
+
+try: url=urllib.unquote_plus(params["url"])
+except: pass
+try: name=urllib.unquote_plus(params["name"])
+except: pass
+try: seriesName=urllib.unquote_plus(params["seriesName"])
+except: pass
+try: mode=int(params["mode"])
+except: pass
+try: iconimage=urllib.unquote_plus(params["iconimage"])
+except: pass
 
 ###############################################################################################################
 # MODOS                                                                                                       #
