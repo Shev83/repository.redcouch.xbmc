@@ -10,7 +10,7 @@
     <extension point="xbmc.addon.metadata">
         <platform>all</platform>
         <summary>Red Couch TV</summary>
-        <description>Addon para visualização do site Redcouch.me</description>
+        <description>Addon do site Redcouch.me</description>
         <platform>all</platform>
     </extension>
 </addon>
