@@ -55,7 +55,7 @@ def listar_videos(url):
         '<div class="detalhe_content_ic detalhe_video_ic"><a href="(.+?)"></a></div><a href=".+?"><img src="(.+?)" alt=".+?" title="(.+?)"></a></div><h3 class="p3 destaques_antetitulo">.+?</h3><h2 class="p14"><a href=".+?" class="destaques_titulo">.+?</a></h2><div class="data">.+?</div><div class="a12_branco"><div class=" p28"></div><p align="justify">.+?</p>').findall(
         codigo_fonte)
     for url, img, titulo in match:
-        addDir(titulo, 'http://www.redcouch.me/filmes/' + url, 4, img, pasta=False)
+        addDir(titulo, 'http://www.redcouch.me/filmes/' + url, 4, img,)
 
 
 ########################################################################################################
@@ -83,7 +83,7 @@ def addDir(name, url, mode, iconimage):
     u = sys.argv[0] + "?url=" + urllib.quote_plus(url) + "&mode=" + str(mode) + "&name=" + urllib.quote_plus(name)
     liz = xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
     liz.setProperty('fanart_image', addonfolder + '/fanart.jpg')
-    ok = xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=u, listitem=liz, isFolder=pasta, totalItems=total)
+    ok = xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=u, listitem=liz, isFolder=True)
     return ok
 
 
