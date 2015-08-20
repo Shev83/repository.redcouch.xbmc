@@ -17,16 +17,18 @@
 </addon>
 
 <addon id="repository.redcouch.xbmc" name="RedCouchTV repositorio" version="0.0.1" provider-name="Shev83">
-	<extension point="xbmc.addon.repository" name="RedCouchTV Add-on Repository">
-		<info compressed="false">http://raw.github.com/Shev83/repository.redcouch.xbmc/master/addons.xml</info>
-		<checksum>http://raw.github.com/Shev83/repository.redcouch.xbmc/master/addons.xml.md5</checksum>
-		<datadir zip="true">http://raw.github.com/Shev83/repository.redcouch.xbmc/master/repo/</datadir>
-	</extension>
-	<extension point="xbmc.addon.metadata">
-		<summary>Repositorio RedCouch TV</summary>
-		<description>Instale o addon de vÃ­deo RedCouch TV e aceda a todos os conteÃºdos do site redcouch.me no KODI. Filmes, animes e sÃ©ries em HD e...em PortuguÃªs</description>
-		<disclaimer></disclaimer>
-		<platform>all</platform>
-	</extension>
+    <extension point="xbmc.addon.repository" name="RedCouchTV Add-on Repository">
+        <info compressed="false">http://raw.github.com/Shev83/repository.redcouch.xbmc/master/addons.xml</info>
+        <checksum>http://raw.github.com/Shev83/repository.redcouch.xbmc/master/addons.xml.md5</checksum>
+        <datadir zip="true">http://raw.github.com/Shev83/repository.redcouch.xbmc/master/repo/</datadir>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary>Repositorio RedCouch TV</summary>
+        <description>Instale o addon de vÃ­deo RedCouch TV e aceda a todos os conteÃºdos do site redcouch.me no KODI.
+            Filmes, animes e sÃ©ries em HD e...em PortuguÃªs
+        </description>
+        <disclaimer></disclaimer>
+        <platform>all</platform>
+    </extension>
 </addon>
 </addons>
