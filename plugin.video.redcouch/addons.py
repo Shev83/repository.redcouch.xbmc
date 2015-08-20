@@ -25,6 +25,7 @@ import xbmcplugin
 import xbmcgui
 import xbmcaddon
 import HTMLParser
+from t0mm0.common.addon import Addon
 
 h = HTMLParser.HTMLParser()
 
@@ -34,17 +35,17 @@ addonfolder = selfAddon.getAddonInfo('path')
 artfolder = addonfolder + '/resources/img/'
 base_url = 'http://www.redcouch.me/'
 fanart = os.path.join(addonfolder,'fanart.jpg')
-	
+
 def CATEGORIES():
-	addDir('FILMES','http://www.redcouch.me/filmes/',1,artfolder+'categorias.png')
-	addDir('Categorias','-',2,artfolder+'categorias.png')
+    addDir('FILMES','http://www.redcouch.me/filmes/',1,artfolder+'categorias.png')
+    addDir('Categorias','-',2,artfolder+'categorias.png')
 
 def categorias():
-	html = abrir_url(base_url)
-	match = re.compile('<li><a href="(.+?)">(.+?)</a></li>').findall(html)
-	for url, cat in match:
-		if cat.startswith('- Filmes'): continue
-		addDir(cat,url,1,artfolder + 'categorias.png')
+    html = abrir_url(base_url)
+    match = re.compile('<li><a href="(.+?)">(.+?)</a></li>').findall(html)
+    for url, cat in match:
+        if cat.startswith('- Filmes'): continue
+        addDir(cat,url,1,artfolder + 'categorias.png')
 
 def listar_videos(url):
     codigo_fonte = abrir_url(url)
@@ -56,24 +57,24 @@ def listar_videos(url):
 ########################################################################################################
 
 def addDir(name,url,mode,iconimage,pasta = True,total=1):
-	u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)
-	ok=True
-	liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
-	liz.setProperty('fanart_image', addonfolder + '/fanart.jpg')
-	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=pasta,totalItems=total)
-	return ok
-	
+    u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)
+    ok=True
+    liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
+    liz.setProperty('fanart_image', addonfolder + '/fanart.jpg')
+    ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=pasta,totalItems=total)
+    return ok
+
 #################################################################################
 #FUNCOES REQUEST's HTTP                                                         #
 #################################################################################
 
 def check_if_image_exists(url):
-	try:
-		f = urllib.request.urlopen(urllib2.Request(url))
-		deadLinkFound = False
-	except:
-		deadLinkFound = True
-	return deadLinkFound
+    try:
+        f = urllib.request.urlopen(urllib2.Request(url))
+        deadLinkFound = False
+    except:
+        deadLinkFound = True
+    return deadLinkFound
 
 def abrir_url(url, encoding='utf-8'):
     req = urllib2.Request(url)
@@ -93,11 +94,11 @@ def json_get(url):
     return data
 
 def json_post(data,url):
-	data = json.dumps(data)
-	req = urllib2.Request(url, data, {'Content-Type': 'application/json'})
-	f = urllib2.urlopen(req)
-	response = f.read()
-	f.close()
+    data = json.dumps(data)
+    req = urllib2.Request(url, data, {'Content-Type': 'application/json'})
+    f = urllib2.urlopen(req)
+    response = f.read()
+    f.close()
 
 def post_page(url,user,password):
     mydata=[('login_name',user),('login_password',password),('login','submit')]
@@ -110,20 +111,21 @@ def post_page(url,user,password):
     return page
 
 def post_page_free(url,mydata):
-	mydata=urllib.urlencode(mydata)
-	req=urllib2.Request(url, mydata)
-	req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-	req.add_header("Content-type", "application/x-www-form-urlencoded")
-	req.add_header('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
-	page=urllib2.urlopen(req).read()
-	return page
+    mydata=urllib.urlencode(mydata)
+    req=urllib2.Request(url, mydata)
+    req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+    req.add_header("Content-type", "application/x-www-form-urlencoded")
+    req.add_header('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
+    page=urllib2.urlopen(req).read()
+    return page
 
 def exists(url):
     try:
         r = urllib2.urlopen(url)
         return True
-    except: return False	
-	
+    except: return False
+
+
 ###############################################################################################################
 # MODOS                                                                                                       #
 ###############################################################################################################
