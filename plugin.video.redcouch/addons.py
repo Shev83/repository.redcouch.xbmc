@@ -46,7 +46,7 @@ def categorias():
     match = re.compile('<li><a href="(.+?)">(.+?)</a></li>').findall(html)
     for url, cat in match:
         if cat.startswith('- Filmes'): continue
-        addDir(cat, url, 1, artfolder + 'categorias.png')
+        addDir(cat, 'http://www.redcouch.me' + url, 1, artfolder + 'categorias.png')
 
 
 def listar_videos(url):
