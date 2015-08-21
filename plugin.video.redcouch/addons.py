@@ -50,7 +50,7 @@ def categorias():
 
 
 def listar_videos(url):
-    codigo_fonte = abrir_url(base_url)
+    codigo_fonte = abrir_url(url)
     match = re.compile(
         '<div class="short-film"><a href="(.+?)"><div class="border-2"><img src="(.+?)" alt="(.+?)" class="img-poster border-2 shadow-dark7" width="151" height="215"/></div><div class="clr"></div></a></div>').findall(
         codigo_fonte)
@@ -65,7 +65,7 @@ def listar_videos(url):
 def get_params():
     param = []
     paramstring = sys.argv[2]
-    if len(paramstring) >= 2:
+    if len(paramstring) >= 2:s
         params = sys.argv[2]
         cleanedparams = params.replace('?', '')
         if (params[len(params) - 1] == '/'): params = params[0:len(params) - 2]
