@@ -37,19 +37,20 @@ fanart = os.path.join(addonfolder, 'fanart.jpg')
 
 
 def CATEGORIES():
-    addDir('FILMES', 'http://www.redcouch.me/filmes/', 1, artfolder + 'categorias.png')
+    addDir('FILMES', 'http://www.redcouch.me/filmes', 1, artfolder + 'categorias.png')
     addDir('Categorias', '-', 2, artfolder + 'categorias.png')
 
 
 def categorias():
     html = abrir_url(base_url)
-    match = re.compile('<li><a href="(.+?)">(.+?)</a></li>').findall(html)
+    match = re.compile('<ul><li><a href="(.+?)">(.+?)</a></li></ul>').findall(html)
     for url, cat in match:
         if cat.startswith('- Filmes'): continue
         addDir(cat, 'http://www.redcouch.me' + url, 1, artfolder + 'categorias.png')
 
 
 def listar_videos(url):
+    print url
     codigo_fonte = abrir_url(url)
     match = re.compile(
         '<div class="short-film"><a href="(.+?)"><div class="border-2"><img src="(.+?)" alt="(.+?)" class="img-poster border-2 shadow-dark7" width="151" height="215"/></div><div class="clr"></div></a></div>').findall(codigo_fonte)
