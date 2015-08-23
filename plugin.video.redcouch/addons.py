@@ -52,10 +52,9 @@ def categorias():
 def listar_videos(url):
     codigo_fonte = abrir_url(url)
     match = re.compile(
-        '<div class="short-film"><a href="(.+?)"><div class="border-2"><img src="(.+?)" alt="(.+?)" class="img-poster border-2 shadow-dark7" width="151" height="215"/></div><div class="clr"></div></a></div>').findall(
-        codigo_fonte)
+        '<div class="short-film"><a href="(.+?)"><div class="border-2"><img src="(.+?)" alt="(.+?)" class="img-poster border-2 shadow-dark7" width="151" height="215"/></div><div class="clr"></div></a></div>').findall(codigo_fonte)
     for url, img, titulo in match:
-        addDir(titulo, 'http://www.redcouch.me/filmes/' + url, 1, img,)
+        addDir(titulo, 'http://www.redcouch.me/filmes' + url, 1, img,)
 
 
 ########################################################################################################
