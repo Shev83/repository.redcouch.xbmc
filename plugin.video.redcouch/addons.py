@@ -24,6 +24,7 @@ import urllib2
 import xbmcplugin
 import xbmcgui
 import xbmcaddon
+import xbmc
 import HTMLParser
 
 h = HTMLParser.HTMLParser()
@@ -37,25 +38,52 @@ fanart = os.path.join(addonfolder, 'fanart.jpg')
 
 
 def CATEGORIES():
-    addDir('FILMES', 'http://www.redcouch.me/filmes', 1, artfolder + 'categorias.png')
+    addDir('FILMES', 'http://www.redcouch.me', 1, artfolder + 'categorias.png')
     addDir('Categorias', '-', 2, artfolder + 'categorias.png')
 
 
 def categorias():
     html = abrir_url(base_url)
-    match = re.compile('<ul><li><a href="(.+?)">(.+?)</a></li></ul>').findall(html)
+    match = re.compile('<li><a href="(.+?)">(.+?)</a></li>').findall(html)
     for url, cat in match:
         if cat.startswith('- Filmes'): continue
         addDir(cat, 'http://www.redcouch.me' + url, 1, artfolder + 'categorias.png')
 
 
 def listar_videos(url):
-    print url
     codigo_fonte = abrir_url(url)
-    match = re.compile(
-        '<div class="short-film"><a href="(.+?)"><div class="border-2"><img src="(.+?)" alt="(.+?)" class="img-poster border-2 shadow-dark7" width="151" height="215"/></div><div class="clr"></div></a></div>').findall(codigo_fonte)
+    match = re.compile('<div class="short-film">\n<a href="(.+?)">\n<div class="border-2">\n<img src="(.+?)" '
+                       'alt="(.+?)" class="img-poster border-2 shadow-dark7" width="151" height="215"/>\n</div> \n'
+                       '<div class="clr"></div>\n</a>\n</div>').findall(codigo_fonte)
     for url, img, titulo in match:
-        addDir(titulo, 'http://www.redcouch.me/filmes' + url, 1, img,)
+        # addDir(titulo, url, 3, img)
+        addDirPlayer(titulo, 'https://openload.co/embed/-aBrwzsoT6E/Eraser.mp4', 4, img)
+
+
+def encontrar_fontes(url):
+    codigo_fonte = abrir_url(url)
+    match = re.compile('<iframe src="(.+?)" scrolling="no" frameborder="0" width="890" height="501" '
+                       'allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true">'
+                       '</iframe>').findall(codigo_fonte)
+
+
+def player(name,url,iconimage):
+    mensagemprogresso = xbmcgui.DialogProgress()
+    mensagemprogresso.create('RedCouch', 'A resolver link', 'Por favor aguarde...')
+    mensagemprogresso.update(33)
+    mensagemprogresso.update(100)
+    mensagemprogresso.close()
+    listitem = xbmcgui.ListItem(name, iconImage="DefaultVideo.png", thumbnailImage=iconimage)
+    listitem.setPath(url)
+    listitem.setProperty('mimetype', 'video/x-msvideo')
+    listitem.setProperty('IsPlayable', 'true')
+    try:
+        xbmcPlayer = xbmc.Player(xbmc.PLAYER_CORE_AUTO)
+        xbmcPlayer.play(url)
+        while not xbmcPlayer.isPlaying(): xbmc.sleep(500)
+    except:
+        dialog = xbmcgui.Dialog()
+        dialog.ok(" Erro:", " Impossível abrir vídeo! ")
 
 
 ########################################################################################################
@@ -84,6 +112,32 @@ def addDir(name, url, mode, iconimage):
     liz = xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
     liz.setProperty('fanart_image', addonfolder + '/fanart.jpg')
     ok = xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=u, listitem=liz, isFolder=True)
+    return ok
+
+
+def addDirPlayer(name, url, mode, iconimage):
+    codigo_fonte = abrir_url(url)
+    u = sys.argv[0] + "?url=" + urllib.quote_plus(url) + "&mode=" + str(mode) + "&name=" + urllib.quote_plus(
+        name) + "&iconimage=" + urllib.quote_plus(iconimage)
+    ok = True
+    liz = xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
+    liz.setProperty('fanart_image', addonfolder + '/fanart.jpg')
+    liz.setInfo(type="Video", infoLabels={"Title": name,
+                                          "OriginalTitle": name
+                                          })
+    cm = []
+    cm.append(('Download', 'XBMC.RunPlugin(%s?mode=6&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url), name)))
+    liz.addContextMenuItems(cm, replaceItems=True)
+    ok = xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=u, listitem=liz, isFolder=False)
+    return ok
+
+
+def addLink(name, url, iconimage):
+    ok = True
+    liz = xbmcgui.ListItem(name, iconImage="DefaultVideo.png", thumbnailImage=iconimage)
+    liz.setInfo(type="Video", infoLabels={"Title": name})
+    liz.setProperty('fanart_image', addonfolder + '/fanart.jpg')
+    ok = xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=url, listitem=liz)
     return ok
 
 
@@ -192,10 +246,6 @@ try:
 except:
     pass
 
-print "Mode: "+str(mode)
-print "URL: "+str(url)
-print "Name: "+str(name)
-print "Iconimage: " + str(iconimage)
 
 ###############################################################################################################
 # MODOS                                                                                                       #
@@ -207,5 +257,9 @@ elif mode == 1:
     listar_videos(url)
 elif mode == 2:
     categorias()
+elif mode == 3:
+    encontrar_fontes(url)
+elif mode == 4:
+    player(name,url,iconimage)
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
