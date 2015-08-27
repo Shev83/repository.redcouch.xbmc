@@ -3,6 +3,9 @@
 <addon id="plugin.video.redcouch" name="Red Couch TV" version="0.1.0" provider-name="Shev83">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
+        <import addon="script.module.urlresolver" version="2.9.3"/>
+        <import addon="plugin.video.youtube" version="1.0.0"/>
+        <import addon="script.module.requests"/>
     </requires>
     <extension library="addons.py" point="xbmc.python.pluginsource">
         <provides>video</provides>

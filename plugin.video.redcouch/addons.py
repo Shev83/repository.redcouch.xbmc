@@ -38,7 +38,7 @@ fanart = os.path.join(addonfolder, 'fanart.jpg')
 
 
 def CATEGORIES():
-    addDir('FILMES', 'http://www.redcouch.me', 1, artfolder + 'categorias.png')
+    addDir('FILMES', 'http://www.redcouch.me/filmes/', 1, artfolder + 'categorias.png')
     addDir('Categorias', '-', 2, artfolder + 'categorias.png')
 
 
@@ -57,17 +57,27 @@ def listar_videos(url):
                        '<div class="clr"></div>\n</a>\n</div>').findall(codigo_fonte)
     for url, img, titulo in match:
         # addDir(titulo, url, 3, img)
-        addDirPlayer(titulo, 'https://openload.co/embed/-aBrwzsoT6E/Eraser.mp4', 4, img)
+        addDir(titulo, url, 3, img)
+    try:
+        next = re.compile('<a href="(.+?)"><span class="pnext">.+?</span></a>').findall(codigo_fonte)[0]
+        addDir('[B][COLOR white]Próxima página >>[/COLOR][/B]', next, 1, artfolder + 'next.png')
+    except:
+        pass
 
 
 def encontrar_fontes(url):
     codigo_fonte = abrir_url(url)
-    match = re.compile('<iframe src="(.+?)" scrolling="no" frameborder="0" width="890" height="501" '
-                       'allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true">'
-                       '</iframe>').findall(codigo_fonte)
+    codigo_fonte_v = abrir_url(url)
+    match2 = re.compile('<iframe src="(.+?)" scrolling="no" frameborder="0" width="890" height="501" '
+                        'allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true">'
+                        '</iframe>').findall(codigo_fonte_v)
+    for url_v in match2:
+        urlfound = url_solver('https://openload.co/embed/oIJzh-NG5WA')
+        addDir('Teste', urlfound, 4, '')
+        # return urlfound
 
 
-def player(name,url,iconimage):
+def player(name, url, iconimage):
     mensagemprogresso = xbmcgui.DialogProgress()
     mensagemprogresso.create('RedCouch', 'A resolver link', 'Por favor aguarde...')
     mensagemprogresso.update(33)
@@ -75,7 +85,6 @@ def player(name,url,iconimage):
     mensagemprogresso.close()
     listitem = xbmcgui.ListItem(name, iconImage="DefaultVideo.png", thumbnailImage=iconimage)
     listitem.setPath(url)
-    listitem.setProperty('mimetype', 'video/x-msvideo')
     listitem.setProperty('IsPlayable', 'true')
     try:
         xbmcPlayer = xbmc.Player(xbmc.PLAYER_CORE_AUTO)
@@ -116,7 +125,6 @@ def addDir(name, url, mode, iconimage):
 
 
 def addDirPlayer(name, url, mode, iconimage):
-    codigo_fonte = abrir_url(url)
     u = sys.argv[0] + "?url=" + urllib.quote_plus(url) + "&mode=" + str(mode) + "&name=" + urllib.quote_plus(
         name) + "&iconimage=" + urllib.quote_plus(iconimage)
     ok = True
@@ -132,9 +140,9 @@ def addDirPlayer(name, url, mode, iconimage):
     return ok
 
 
-def addLink(name, url, iconimage):
+def addLink(name, url):
     ok = True
-    liz = xbmcgui.ListItem(name, iconImage="DefaultVideo.png", thumbnailImage=iconimage)
+    liz = xbmcgui.ListItem(name, iconImage="DefaultVideo.png")
     liz.setInfo(type="Video", infoLabels={"Title": name})
     liz.setProperty('fanart_image', addonfolder + '/fanart.jpg')
     ok = xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=url, listitem=liz)
@@ -144,6 +152,20 @@ def addLink(name, url, iconimage):
 #################################################################################
 # FUNCOES REQUEST's HTTP                                                         #
 #################################################################################
+def url_solver(urlfinal):
+    import urlresolver
+    sources = []
+    hosted_media = urlresolver.HostedMediaFile(url=urlfinal)
+    sources.append(hosted_media)
+    source = urlresolver.choose_source(sources)
+    if source:
+        stream_url = source.resolve()
+        stream_source = source.get_host()
+    else:
+        stream_url = '-'
+        stream_source = '-'
+    return stream_url
+
 
 def check_if_image_exists(url):
     try:
@@ -260,6 +282,6 @@ elif mode == 2:
 elif mode == 3:
     encontrar_fontes(url)
 elif mode == 4:
-    player(name,url,iconimage)
+    player(name, url, iconimage)
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
