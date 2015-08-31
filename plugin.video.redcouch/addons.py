@@ -39,6 +39,8 @@ fanart = os.path.join(addonfolder, 'fanart.jpg')
 
 def CATEGORIES():
     addDir('FILMES', 'http://www.redcouch.me/filmes/', 1, artfolder + 'categorias.png')
+    addDir('SÉRIES', 'http://www.redcouch.me/series/', 1, artfolder + 'categorias.png')
+    addDir('ANIMES', 'http://www.redcouch.me/animes/', 1, artfolder + 'categorias.png')
     addDir('Categorias', '-', 2, artfolder + 'categorias.png')
 
 
@@ -46,8 +48,8 @@ def categorias():
     html = abrir_url(base_url)
     match = re.compile('<li><a href="(.+?)">(.+?)</a></li>').findall(html)
     for url, cat in match:
-        if cat.startswith('- Filmes'): continue
-        addDir(cat, 'http://www.redcouch.me' + url, 1, artfolder + 'categorias.png')
+        if not cat.startswith('<span>'):
+            addDir(cat, 'http://www.redcouch.me' + url, 1, artfolder + 'categorias.png')
 
 
 def listar_videos(url):
@@ -56,26 +58,21 @@ def listar_videos(url):
                        'alt="(.+?)" class="img-poster border-2 shadow-dark7" width="151" height="215"/>\n</div> \n'
                        '<div class="clr"></div>\n</a>\n</div>').findall(codigo_fonte)
     for url, img, titulo in match:
-        # addDir(titulo, url, 3, img)
-        addDir(titulo, url, 3, img)
+        addDir(titulo, url, 4, img)
     try:
         next = re.compile('<a href="(.+?)"><span class="pnext">.+?</span></a>').findall(codigo_fonte)[0]
         addDir('[B][COLOR white]Próxima página >>[/COLOR][/B]', next, 1, artfolder + 'next.png')
     except:
         pass
 
-
 def encontrar_fontes(url):
     codigo_fonte = abrir_url(url)
     codigo_fonte_v = abrir_url(url)
-    match2 = re.compile('<iframe src="(.+?)" scrolling="no" frameborder="0" width="890" height="501" '
-                        'allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true">'
-                        '</iframe>').findall(codigo_fonte_v)
+    match2 = re.compile('<iframe src="(.+?)"').findall(codigo_fonte_v)
     for url_v in match2:
-        urlfound = url_solver('https://openload.co/embed/oIJzh-NG5WA')
-        addDir('Teste', urlfound, 4, '')
+        print url_v
+        addDir('Teste', url_v, 4, '')
         # return urlfound
-
 
 def player(name, url, iconimage):
     mensagemprogresso = xbmcgui.DialogProgress()
@@ -83,43 +80,43 @@ def player(name, url, iconimage):
     mensagemprogresso.update(33)
     mensagemprogresso.update(100)
     mensagemprogresso.close()
-    listitem = xbmcgui.ListItem(name, iconImage="DefaultVideo.png", thumbnailImage=iconimage)
-    listitem.setPath(url)
-    listitem.setProperty('IsPlayable', 'true')
+    link = open_url(url)
+    print link
+    if 'openload' in link:
+        olurl=re.compile('<iframe src="(.+?)"').findall(link)[0]
+        print olurl
+        link = open_url(olurl)
+        print link
+        stream_url = re.compile('<source type="video/mp4" src="(.+?)">').findall(link)[0]
+    ok=True
+    liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png",thumbnailImage=iconimage); liz.setInfo( type="Video", infoLabels={ "Title": name } )
+    ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=liz)
     try:
-        xbmcPlayer = xbmc.Player(xbmc.PLAYER_CORE_AUTO)
-        xbmcPlayer.play(url)
-        while not xbmcPlayer.isPlaying(): xbmc.sleep(500)
+        xbmc.Player ().play(stream_url, liz, False) 
     except:
         dialog = xbmcgui.Dialog()
         dialog.ok(" Erro:", " Impossível abrir vídeo! ")
 
+def open_url(url):
+        req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response = urllib2.urlopen(req)
+        link=response.read()
+        link = link.replace('\n','')
+        link = link.decode('utf-8').encode('utf-8').replace('&#39;','\'').replace('&#10;',' - ').replace('&#x2026;','')
+        response.close()
+        return link
 
 ########################################################################################################
 # FUNCOES DIRECTORIAS                                                                                   #
 ########################################################################################################
-
-def get_params():
-    param = []
-    paramstring = sys.argv[2]
-    if len(paramstring) >= 2:
-        params = sys.argv[2]
-        cleanedparams = params.replace('?', '')
-        if (params[len(params) - 1] == '/'): params = params[0:len(params) - 2]
-        pairsofparams = cleanedparams.split('&')
-        param = {}
-        for i in range(len(pairsofparams)):
-            splitparams = {}
-            splitparams = pairsofparams[i].split('=')
-            if (len(splitparams)) == 2:
-                param[splitparams[0]] = splitparams[1]
-    return param
 
 
 def addDir(name, url, mode, iconimage):
     u = sys.argv[0] + "?url=" + urllib.quote_plus(url) + "&mode=" + str(mode) + "&name=" + urllib.quote_plus(name)
     liz = xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
     liz.setProperty('fanart_image', addonfolder + '/fanart.jpg')
+    liz.setInfo( type="video", infoLabels={ "title": name} )
     ok = xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=u, listitem=liz, isFolder=True)
     return ok
 
@@ -180,7 +177,6 @@ def abrir_url(url, encoding='utf-8'):
     req = urllib2.Request(url)
     req.add_header('User-Agent',
                    'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-    req.add_header('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
     response = urllib2.urlopen(req)
     link = response.read()
     response.close()
@@ -239,11 +235,25 @@ def exists(url):
 ############################################################################################################
 # NAVEGAÇÃO												   #
 ############################################################################################################
+def get_params():
+    param = []
+    paramstring = sys.argv[2]
+    if len(paramstring) >= 2:
+        params = sys.argv[2]
+        cleanedparams = params.replace('?', '')
+        if (params[len(params) - 1] == '/'): params = params[0:len(params) - 2]
+        pairsofparams = cleanedparams.split('&')
+        param = {}
+        for i in range(len(pairsofparams)):
+            splitparams = {}
+            splitparams = pairsofparams[i].split('=')
+            if (len(splitparams)) == 2:
+                param[splitparams[0]] = splitparams[1]
+    return param
 
 params = get_params()
 url = None
 name = None
-seriesName = None
 mode = None
 iconimage = None
 
@@ -256,10 +266,6 @@ try:
 except:
     pass
 try:
-    seriesName = urllib.unquote_plus(params["seriesName"])
-except:
-    pass
-try:
     mode = int(params["mode"])
 except:
     pass
@@ -268,6 +274,10 @@ try:
 except:
     pass
 
+print "Mode: "+str(mode)
+print "URL: "+str(url)
+print "Name: "+str(name)
+print "Iconimage: "+str(iconimage)
 
 ###############################################################################################################
 # MODOS                                                                                                       #
